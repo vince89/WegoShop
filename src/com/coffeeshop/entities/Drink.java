@@ -3,6 +3,7 @@
  */
 package com.coffeeshop.entities;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
@@ -25,7 +26,6 @@ import javax.persistence.InheritanceType;
 public class Drink {
 
 
-
 	public int getId() {
 		return id;
 	}
@@ -44,7 +44,18 @@ public class Drink {
 
 	public Drink() {
 	}
+	
+	
+	@Column(name = "drinkType", insertable = false, updatable = false)
+	private String drink;
 
+	public String getDrink() {
+		return drink;
+	}
+
+	public void setDrink(String drink) {
+		this.drink = drink;
+	}
 
 
 }

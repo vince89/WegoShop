@@ -40,5 +40,28 @@ public class DrinkFactory {
 
 		return drinkObj;
 	}
+	
+	
+//	public static Drink getDrinkObj(String drink) throws Exception
+//	{
+//		Drink drinkObj = null;
+//		
+//		switch(drink){
+//		case "Tea":
+//			drinkObj = new GreenTea(); 
+//			drinkObj = new HotTea();
+//			break;
+//		case "Coffee":
+//			drinkObj = new Latte();
+//			drinkObj = new Espresso();
+//			drinkObj = new Cappuccino();
+//			break;
+//		default:
+//			throw new Exception();
+//
+//		}
+//
+//		return drinkObj;
+//	}
 
 }

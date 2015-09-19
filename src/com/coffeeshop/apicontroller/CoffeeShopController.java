@@ -1,8 +1,6 @@
 package com.coffeeshop.apicontroller;
 
-import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.coffeeshop.entities.OrderItem;
+import com.coffeeshop.entities.OrderItemDTO;
 import com.coffeeshop.service.OrderService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,36 +26,19 @@ public class CoffeeShopController {
 	OrderService orderservice;
 	
 	public CoffeeShopController() throws UnknownHostException {
-		//orderservice = new OrderService();
 	}
 	
-	@RequestMapping(headers = {"content-type=application/json"},method=RequestMethod.POST, value="/getDynamicFeeds")
+
+	
+	@RequestMapping(headers = {"content-type=application/json"},method=RequestMethod.POST, value="/insertOrder")
 	@ResponseBody
-	public void addOrders(@RequestBody String json, HttpServletRequest request) throws Exception {
-		ObjectMapper mapper = new ObjectMapper();
-		JsonNode feedParams;
-		List<OrderItem> orderItems = new ArrayList<OrderItem>();
-		try {
+	public void getNewOrder(@RequestBody String json, HttpServletRequest request) {
+		try { 
+			ObjectMapper mapper = new ObjectMapper();
+			JsonNode feedParams;
 			feedParams = mapper.readTree(json);
-			
-			
-			//set to the list
-			
-		    orderservice.AddOrders("GreenTea","Tall");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
-		}
-	}
-	
-	
-	
-	@RequestMapping(method=RequestMethod.GET, value="/getNewOrder")
-	@ResponseBody
-	public void getNewOrder(HttpServletRequest request) {
-		try { 
-			orderservice.AddOrders("GreenTea","Tall");
+ 
+			orderservice.AddOrders(feedParams);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace(); 
@@ -64,12 +46,14 @@ public class CoffeeShopController {
 		}
 	}
 
-	
-	@RequestMapping(method=RequestMethod.GET, value="/getOrderByDrink")
+	@RequestMapping(headers = {"content-type=application/json"},method=RequestMethod.POST, value="/getOrderByDrink")
 	@ResponseBody
-	public List<OrderItem> getOrdersByDrink(HttpServletRequest request) {
+	public String getOrdersByDrink(@RequestBody String json,HttpServletRequest request) {
 		try { 
-			return orderservice.getOrdersByDrink("Tea");
+			ObjectMapper mapper = new ObjectMapper();
+			JsonNode feedParams;
+			feedParams = mapper.readTree(json);
+			return mapper.writeValueAsString(orderservice.getOrdersByDrink(feedParams));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace(); 
@@ -77,11 +61,14 @@ public class CoffeeShopController {
 		return null;
 	}
 	
-	@RequestMapping(method=RequestMethod.GET, value="/getOrderBySize")
+	@RequestMapping(headers = {"content-type=application/json"},method=RequestMethod.POST, value="/getOrderByType")
 	@ResponseBody
-	public List<OrderItem> getOrdersBySize(HttpServletRequest request) {
+	public String getOrdersBySize(@RequestBody String json,HttpServletRequest request) {
 		try { 
-			return orderservice.getOrdersByDrink("Tall");
+			ObjectMapper mapper = new ObjectMapper();
+			JsonNode feedParams;
+			feedParams = mapper.readTree(json); 
+			return mapper.writeValueAsString(orderservice.getOrdersByType(feedParams));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace(); 
@@ -89,11 +76,11 @@ public class CoffeeShopController {
 		return null;
 	}
 	
-	@RequestMapping(method=RequestMethod.GET, value="/getOrder")
+	@RequestMapping(method=RequestMethod.GET, value="/addMenu")
 	@ResponseBody
-	public void getFeeds(HttpServletRequest request) {
+	public void addMenu(HttpServletRequest request) {
 		try { 
-			 orderservice.AddOrders(); 
+			 orderservice.AddMenu(); 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -101,4 +88,18 @@ public class CoffeeShopController {
 		}
 	}
 
+	@RequestMapping(method=RequestMethod.GET, value="/getOrders")
+	@ResponseBody
+	public String getOrders(HttpServletRequest request) {
+		try { 
+			 ObjectMapper mapper = new ObjectMapper();
+			 return mapper.writeValueAsString(orderservice.getOrders()); 
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	
 }

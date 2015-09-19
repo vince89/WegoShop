@@ -5,6 +5,8 @@ package com.coffeeshop.entities;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -30,6 +32,7 @@ public class OrderItem {
 	}
  
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id; 
     public int getId() {
 		return id;
@@ -49,7 +52,8 @@ public class OrderItem {
 	public void setOrderNumber(int orderNumber) {
 		this.orderNumber = orderNumber;
 	}
-
+	
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int orderNumber;
 	@OneToOne(cascade=CascadeType.PERSIST)
 	@JoinColumn(name="Drink",nullable= false)

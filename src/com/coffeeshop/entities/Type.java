@@ -3,6 +3,7 @@
  */
 package com.coffeeshop.entities;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
@@ -40,5 +41,14 @@ public class Type {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	protected int typeId;
+	@Column(name = "sizeType", insertable = false, updatable = false)
+	private String type;
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 
 }

@@ -3,6 +3,7 @@
  */
 package com.coffeeshop.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.coffeeshop.entities.Drink;
 import com.coffeeshop.entities.Menu;
 import com.coffeeshop.entities.OrderItem;
+import com.coffeeshop.entities.OrderItemDTO;
 import com.coffeeshop.entities.Type;
 import com.coffeeshop.entities.coffee.Cappuccino;
 import com.coffeeshop.entities.coffee.Espresso;
@@ -42,148 +44,324 @@ public class CoffeeShopDAO {
 
 	@Transactional
 	public void insertOrder(){
-     /*
+
 		Session sessiontemp = null;
 		//ApplicationContext contextSeperate = new ClassPathXmlApplicationContext(new String[]{"WegoShop-servlet.xml"});
 		//SessionFactory sessionFactorytemp = (SessionFactory) contextSeperate.getBean("sessionFactory");
 		sessiontemp = sessionFactory.getCurrentSession();
-		Drink drink1 = new GreenTea();
-		sessiontemp.save(drink1);
-		Drink drink = new HotTea();
-		sessiontemp.save(drink);
-		drink = new Cappuccino();
-		sessiontemp.save(drink);
-		drink = new Espresso();
-		sessiontemp.save(drink);
-		drink = new Latte();
-		sessiontemp.save(drink);
-	Type type1 = new Tall();
-		sessiontemp.save(type1);
-		Type type = new Grande();
-		sessiontemp.save(type);
-		type = new Venti();
-		sessiontemp.save(type);
+		Drink greenTea = new GreenTea();
+		sessiontemp.save(greenTea);
+		Drink hotTea = new HotTea();
+		sessiontemp.save(hotTea);
+		Drink cappuccino = new Cappuccino();
+		sessiontemp.save(cappuccino);
+		Drink latte = new Latte();
+		sessiontemp.save(latte);
+		Drink espresso = new Espresso();
+		sessiontemp.save(espresso);
+		Type tall = new Tall();
+		sessiontemp.save(tall);
+		Type grande = new Grande();
+		sessiontemp.save(grande);
+		Type venti = new Venti();
+		sessiontemp.save(venti);
 
+
+		//Menu 1
 		Menu menu = new Menu();
-	
-		
-		menu.setDrink(drink1);
-		menu.setType(type1);
+
+
+		menu.setDrink(greenTea);
+		menu.setType(tall);
+		menu.setPrice(3.45);
+
+
+		sessiontemp.save(menu); 
+
+
+
+
+		//Menu 2
+
+
+		menu = new Menu();
+
+
+		menu.setDrink(greenTea);
+		menu.setType(grande);
+		menu.setPrice(4.25);
+
+
+		sessiontemp.save(menu); 
+
+
+
+		//Menu 3
+
+
+		menu = new Menu();
+
+
+		menu.setDrink(greenTea);
+		menu.setType(venti);
+		menu.setPrice(4.45);
+
+
+		sessiontemp.save(menu); 
+
+
+
+		//Menu 4
+
+
+		menu = new Menu();
+
+
+		menu.setDrink(hotTea);
+		menu.setType(grande);
+		menu.setPrice(1.95);
+
+
+		sessiontemp.save(menu); 
+
+
+
+		//Menu 5
+
+
+		menu = new Menu();
+
+
+		menu.setDrink(cappuccino);
+		menu.setType(tall);
 		menu.setPrice(3.15);
 
 
 		sessiontemp.save(menu); 
-        */
+
+
+		//Menu 6
+
+
+		menu = new Menu();
+
+
+		menu.setDrink(cappuccino);
+		menu.setType(grande);
+		menu.setPrice(3.75);
+
+
+		sessiontemp.save(menu);
+
+
+		//Menu 7
+
+
+		menu = new Menu();
+
+
+		menu.setDrink(cappuccino);
+		menu.setType(venti);
+		menu.setPrice(4.15);
+
+
+		sessiontemp.save(menu);
+
+
+
+
+		//Menu 7
+
+
+		menu = new Menu();
+
+
+		menu.setDrink(latte);
+		menu.setType(tall);
+		menu.setPrice(3.4);
+
+
+		sessiontemp.save(menu);
+
+
+		//Menu 8
+
+
+		menu = new Menu();
+
+
+		menu.setDrink(latte);
+		menu.setType(grande);
+		menu.setPrice(4.45);
+
+
+		sessiontemp.save(menu);
+
+
+		//Menu 9 
+		menu = new Menu();
+		menu.setDrink(latte);
+		menu.setType(venti);
+		menu.setPrice(4.65);
+		sessiontemp.save(menu);
+		//Menu 10
+		menu = new Menu();
+		menu.setDrink(espresso);
+		menu.setType(venti);
+		menu.setPrice(2.35);
+		sessiontemp.save(menu);
+		//Menu 10
+		menu = new Menu();
+		menu.setDrink(espresso);
+		menu.setType(grande);
+		menu.setPrice(2.05);
+		sessiontemp.save(menu);
+
+		//Menu 10
+		menu = new Menu();
+		menu.setDrink(espresso);
+		menu.setType(tall);
+		menu.setPrice(1.95);
+
+
+		sessiontemp.save(menu);
+
+
 	}
+//	@Transactional
+//	public double getPrice(Drink d,Type t) {
+//
+//		Session sessiontemp = null;
+//		sessiontemp = sessionFactory.getCurrentSession();
+//		Criteria c2 = sessiontemp.createCriteria(Menu.class);
+//		c2.add(Restrictions.like("drink", d));
+//		c2.add(Restrictions.like("type",t));
+//		Menu menu=(Menu)c2.uniqueResult();
+//		return menu.getPrice();
+//	}
 
 
+
+
+//	@Transactional
+//	public void insertOrder(OrderItem order) {
+//		Session sessiontemp = null;
+//		sessiontemp = sessionFactory.getCurrentSession();
+//
+//		sessiontemp.save(order); 
+//	}
+//
 
 
 	@Transactional
-	public double getPrice(Drink d,Type t) {
-		
+	public double getPrice(String drink, String type,int noOfItems) throws Exception {
 		Session sessiontemp = null;
 		sessiontemp = sessionFactory.getCurrentSession();
-		System.out.println("1");
+		Criteria c = sessiontemp.createCriteria(Drink.class);
+		c.add(Restrictions.eq("class", drink));
+		Drink d = (Drink) c.uniqueResult();
+		
+		Criteria c1 = sessiontemp.createCriteria(Type.class);
+		c1.add(Restrictions.eq("class", type));
+		Type t = (Type) c1.uniqueResult();
+		
 		Criteria c2 = sessiontemp.createCriteria(Menu.class);
-		System.out.println("1");
 		c2.add(Restrictions.like("drink", d));
-		System.out.println("1");
 		c2.add(Restrictions.like("type",t));
-		System.out.println("1");
 		Menu menu=(Menu)c2.uniqueResult();
-		System.out.println("1");
-		return menu.getPrice();
+		double price = menu.getPrice();
+		if(price!=0)
+		{
+			OrderItem or = new OrderItem();
+			or.setDrink(d);
+			or.setType(t);
+			or.setNoOfItems(noOfItems);
+			or.setTotalPrice(price*noOfItems);
+			sessiontemp.save(or);
+		}
+		else {
+			throw new Exception();
+		}
+		return 0;
+	}
+
+	@Transactional
+	public List<OrderItemDTO> getOrdersBySize(String type) {
+
+		Session sessiontemp = null;
+		sessiontemp = sessionFactory.getCurrentSession();
+
+
+		Criteria c1 = sessiontemp.createCriteria(Type.class);
+		c1.add(Restrictions.like("class", type));
+		Type t = (Type) c1.uniqueResult();
+
+
+		Criteria c2 = sessiontemp.createCriteria(OrderItem.class); 
+
+		c2.add(Restrictions.like("type", t));
+
+		List<OrderItem> items = (List<OrderItem>) c2.list();
+		
+		
+		return mapperObject(items); 
+
 	}
 
 
+	@Transactional
+	public List<OrderItemDTO> getOrdersByDrink(String drink) {
 
-
-   @Transactional
-	public void insertOrder(OrderItem order) {
 		Session sessiontemp = null;
 		sessiontemp = sessionFactory.getCurrentSession();
 		
-		sessiontemp.save(order); 
+
+		Criteria c = sessiontemp.createCriteria(Drink.class);
+		c.add(Restrictions.like("class", drink));
+		Drink d = (Drink) c.uniqueResult();
+		System.out.println(d.getClass().toString());
+
+		Criteria c2 = sessiontemp.createCriteria(OrderItem.class);
+		c2.add(Restrictions.like("drink", d));
+
+		List<OrderItem> items = (List<OrderItem>) c2.list();
+		
+
+		
+		return mapperObject(items); 
+
 	}
 
+	
+	@Transactional
+	public List<OrderItemDTO> getOrders() {
 
+		Session sessiontemp = null;
+		sessiontemp = sessionFactory.getCurrentSession();
+        Criteria c2 = sessiontemp.createCriteria(OrderItem.class);
 
-@Transactional
-public double getPrice(String drink, String type) {
-	Session sessiontemp = null;
-	sessiontemp = sessionFactory.getCurrentSession();
-	System.out.println("1");
-	
-	Criteria c = sessiontemp.createCriteria(Drink.class);
-	c.add(Restrictions.eq("class", drink));
-	Drink d = (Drink) c.uniqueResult();
-	System.out.println(d.getClass().toString());
-	
-	Criteria c1 = sessiontemp.createCriteria(Type.class);
-	c1.add(Restrictions.eq("class", type));
-	Type t = (Type) c1.uniqueResult();
-	System.out.println(t.getClass().toString());
-	
-	Criteria c2 = sessiontemp.createCriteria(Menu.class);
-	System.out.println("1");
-	c2.add(Restrictions.like("drink", d));
-	System.out.println("1");
-	c2.add(Restrictions.like("type",t));
-	System.out.println("1");
-	Menu menu=(Menu)c2.uniqueResult();
-	System.out.println("1");
-	double price = menu.getPrice();
-	OrderItem or = new OrderItem();
-	or.setDrink(d);
-	or.setType(t);
-	or.setTotalPrice(price);
-	sessiontemp.save(or);
-	return 0;
-}
+		List<OrderItem> items = (List<OrderItem>) c2.list();
+		System.out.println(items.size());
 
-@Transactional
-public List<OrderItem> getOrdersBySize(String type) {
-	
-	Session sessiontemp = null;
-	sessiontemp = sessionFactory.getCurrentSession();
-	System.out.println("1");
-	
-	Criteria c1 = sessiontemp.createCriteria(Type.class);
-	c1.add(Restrictions.like("class", type));
-	Type t = (Type) c1.uniqueResult();
-	System.out.println(t.getClass().toString());
-	
-	Criteria c2 = sessiontemp.createCriteria(Menu.class); 
-	System.out.println("1");
-	c2.add(Restrictions.like("type", t));
-	
-	List<OrderItem> items = (List<OrderItem>) c2.list();
-	return items;
-	
-}
+		
+		return mapperObject(items); 
 
-
-@Transactional
-public List<OrderItem> getOrdersByDrink(String drink) {
+	}
 	
-	Session sessiontemp = null;
-	sessiontemp = sessionFactory.getCurrentSession();
-	System.out.println("1");
-	
-	Criteria c = sessiontemp.createCriteria(Drink.class);
-	c.add(Restrictions.like("class", drink));
-	Drink d = (Drink) c.uniqueResult();
-	System.out.println(d.getClass().toString());
-	
-	Criteria c2 = sessiontemp.createCriteria(Menu.class);
-	System.out.println("1");
-	c2.add(Restrictions.like("drink", d));
-	
-	List<OrderItem> items = (List<OrderItem>) c2.list();
-	return items;
-	
-}
-
+	private List<OrderItemDTO> mapperObject(List<OrderItem> items)
+	{
+		List<OrderItemDTO> orderItems = new ArrayList<OrderItemDTO>();
+		for(OrderItem order : items){
+			OrderItemDTO orderItem = new OrderItemDTO();
+			
+			orderItem.setOrderNumber(order.getId());
+			orderItem.setDrink(order.getDrink().getDrink());
+			orderItem.setSize(order.getType().getType());
+			orderItem.setNoOfItems(order.getNoOfItems());
+			orderItem.setTotalPrice(order.getTotalPrice());
+			orderItems.add(orderItem);
+		}
+		return orderItems;
+	}
 
 }
