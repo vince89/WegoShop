@@ -14,79 +14,61 @@ public class OrderService {
 	@Autowired
 	CoffeeShopDAO coffeeshop;
 
-	public void AddMenu()
-	{
+	public void AddMenu() {
 
-		coffeeshop.insertOrder();  
+		coffeeshop.insertOrder();
 	}
 
+	// menu
+	public int AddOrders(String drink, String type, int noOfItems)
+			throws Exception {
+		// Drink d = DrinkFactory.CreateDrink(drink);
+		// Type t = TypeFactory.GetType(type);
+		return coffeeshop.insertFinalOrderwithPrice(drink, type, noOfItems);
 
+	}
 
-	//menu
-	public void AddOrders(String drink, String type,int noOfItems) throws Exception
-	{
-//		Drink d = DrinkFactory.CreateDrink(drink);
-//	    Type t = TypeFactory.GetType(type);
-		coffeeshop.getPrice(drink,type,noOfItems);
-
-	} 
-
-	
-	public void AddOrders(JsonNode node) throws Exception
-	{
-		String drink="";
-		String type="";
+	//
+	public int AddOrders(JsonNode node) throws Exception {
+		String drink = "";
+		String type = "";
 		int noOfItems = 0;
-		
-		if(node.get("drink")!=null)
-		{
+
+		if (node.get("drink") != null) {
 			drink = node.get("drink").asText("");
 		}
-		if(node.get("type")!=null)
-		{
+		if (node.get("type") != null) {
 			type = node.get("type").asText("");
 		}
-		
-		if(node.get("n")!=null)
-		{
-			noOfItems=Integer.parseInt(node.get("n").asText(""));
+
+		if (node.get("n") != null) {
+			noOfItems = Integer.parseInt(node.get("n").asText(""));
 		}
-		
-		System.out.println(drink+type+noOfItems);
-		coffeeshop.getPrice(drink,type,noOfItems); 
 
-	} 
-	
-	
-	
+		return AddOrders(drink, type, noOfItems);
 
+	}
 
-	public List<OrderItemDTO> getOrdersByDrink(JsonNode node) throws Exception{
-		//Drink d = DrinkFactory.CreateDrink(drink);
-		String drink="";
-		if(node.get("drink")!=null)
-		{
+	public List<OrderItemDTO> getOrdersByDrink(JsonNode node) throws Exception {
+		// Drink d = DrinkFactory.CreateDrink(drink);
+		String drink = "";
+		if (node.get("drink") != null) {
 			drink = node.get("drink").asText("");
 		}
-		
+
 		return coffeeshop.getOrdersByDrink(drink);
 	}
 
-
-	public List<OrderItemDTO> getOrdersByType(JsonNode node){
-		String type="";
-		if(node.get("type")!=null)
-		{
+	public List<OrderItemDTO> getOrdersByType(JsonNode node) {
+		String type = "";
+		if (node.get("type") != null) {
 			type = node.get("type").asText("");
 		}
 		return coffeeshop.getOrdersBySize(type);
 	}
 
-	
-	public List<OrderItemDTO> getOrders(){
-		return coffeeshop.getOrders(); 
+	public List<OrderItemDTO> getOrders() {
+		return coffeeshop.getOrders();
 	}
-	
-	
 
 }

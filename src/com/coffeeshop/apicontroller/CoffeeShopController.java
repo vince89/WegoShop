@@ -32,17 +32,21 @@ public class CoffeeShopController {
 	
 	@RequestMapping(headers = {"content-type=application/json"},method=RequestMethod.POST, value="/insertOrder")
 	@ResponseBody
-	public void getNewOrder(@RequestBody String json, HttpServletRequest request) {
+	public String getNewOrder(@RequestBody String json, HttpServletRequest request) {
 		try { 
 			ObjectMapper mapper = new ObjectMapper();
 			JsonNode feedParams;
 			feedParams = mapper.readTree(json);
  
-			orderservice.AddOrders(feedParams);
+			if(orderservice.AddOrders(feedParams)==1)
+			{
+				return "Success";
+			}
+			return "Fail";
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace(); 
-			//return null;
+			return "fail";
 		}
 	}
 
