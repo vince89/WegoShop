@@ -58,23 +58,8 @@ public class AddOrderTest {
 
 	}
 
-	@Test
-	public void testOrders() {
-		List<OrderItemDTO> orders = orderService.getOrders();
-		assertEquals(21, orders.size());
-	}
-	
-	@Test
-	public void testOrdersBySize() {
-		List<OrderItemDTO> orders = orderService.getOrdersByType(actualObj1);
-		assertEquals(3, orders.size());
-	}
 
-	@Test
-	public void testOrdersByDrink() throws Exception {
-		List<OrderItemDTO> orders = orderService.getOrdersByDrink(actualObj2);
-		assertEquals(3, orders.size());
-	}
+	
 
 	
 }
