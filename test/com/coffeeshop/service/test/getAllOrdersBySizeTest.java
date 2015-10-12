@@ -35,7 +35,7 @@ public class getAllOrdersBySizeTest {
 	@Before
 	public void setUp() throws Exception {
 		mapper = new ObjectMapper();
-		actualObj = mapper.readTree("{\"type\":\"Tall\"}");
+		actualObj = mapper.readTree("{\"type\":\"Grande\"}");
 
 	}
 
@@ -48,5 +48,20 @@ public class getAllOrdersBySizeTest {
 		List<OrderItemDTO> orders = orderService.getOrdersByType(actualObj);
 		assertEquals(3, orders.size());
 	}
+	
+	@Test
+	public void testGetOrders() {
+		List<OrderItemDTO> orders = orderService.getOrdersByType(actualObj);
+		assertEquals("Cappuccino", orders.get(0).getDrink());
+	}
 
+	
+	@Test
+	public void testGetOrdersType() {
+		List<OrderItemDTO> orders = orderService.getOrdersByType(actualObj);
+		assertEquals("Grande", orders.get(0).getSize());
+	}
+
+	
+	
 }

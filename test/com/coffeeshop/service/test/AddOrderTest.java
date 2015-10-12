@@ -59,6 +59,14 @@ public class AddOrderTest {
 
 	}
 
+	
+	@Test
+	public void testInsertOrderNegative() throws Exception {
+		
+		int a = orderService.AddOrders(actualObj1);
+		assertEquals(0,a);
+
+	}
 
 	
 

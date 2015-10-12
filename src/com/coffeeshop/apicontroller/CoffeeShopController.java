@@ -21,23 +21,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 @RequestMapping("/api")
 public class CoffeeShopController {
-	
+
 	@Autowired
 	OrderService orderservice;
-	
+
 	public CoffeeShopController() throws UnknownHostException {
 	}
-	
 
-	
+
+    //Method to Insert Order
 	@RequestMapping(headers = {"content-type=application/json"},method=RequestMethod.POST, value="/insertOrder")
 	@ResponseBody
-	public String getNewOrder(@RequestBody String json, HttpServletRequest request) {
+	public String setNewOrder(@RequestBody String json, HttpServletRequest request) {
 		try { 
 			ObjectMapper mapper = new ObjectMapper();
 			JsonNode feedParams;
 			feedParams = mapper.readTree(json);
- 
+
 			if(orderservice.AddOrders(feedParams)==1)
 			{
 				return "Success";
@@ -50,6 +50,7 @@ public class CoffeeShopController {
 		}
 	}
 
+	//Method to Get Orders Based on Drink
 	@RequestMapping(headers = {"content-type=application/json"},method=RequestMethod.POST, value="/getOrderByDrink")
 	@ResponseBody
 	public String getOrdersByDrink(@RequestBody String json,HttpServletRequest request) {
@@ -64,7 +65,8 @@ public class CoffeeShopController {
 		}
 		return null;
 	}
-	
+
+	//Method to Get Orders Based on Type
 	@RequestMapping(headers = {"content-type=application/json"},method=RequestMethod.POST, value="/getOrderByType")
 	@ResponseBody
 	public String getOrdersBySize(@RequestBody String json,HttpServletRequest request) {
@@ -80,11 +82,13 @@ public class CoffeeShopController {
 		return null;
 	}
 	
+	
+    //Method to Add Menu run only once.
 	@RequestMapping(method=RequestMethod.GET, value="/addMenu")
 	@ResponseBody
 	public void addMenu(HttpServletRequest request) {
 		try { 
-			 orderservice.AddMenu(); 
+			orderservice.AddMenu(); 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -92,18 +96,19 @@ public class CoffeeShopController {
 		}
 	}
 
+	//Method to Get all Orders 
 	@RequestMapping(method=RequestMethod.GET, value="/getOrders")
 	@ResponseBody
 	public String getOrders(HttpServletRequest request) {
 		try { 
-			 ObjectMapper mapper = new ObjectMapper();
-			 return mapper.writeValueAsString(orderservice.getOrders()); 
+			ObjectMapper mapper = new ObjectMapper();
+			return mapper.writeValueAsString(orderservice.getOrders()); 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
-	
+
+
 }

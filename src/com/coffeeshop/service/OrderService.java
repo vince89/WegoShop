@@ -3,20 +3,21 @@ package com.coffeeshop.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.coffeeshop.dao.CoffeeShopDAO;
-import com.coffeeshop.entities.OrderItem;
 import com.coffeeshop.entities.OrderItemDTO;
 import com.fasterxml.jackson.databind.JsonNode;
+
 
 public class OrderService {
 
 	@Autowired
-	CoffeeShopDAO coffeeshop;
+	private CoffeeShopDAO coffeeShop;
 
 	public void AddMenu() {
 
-		coffeeshop.insertOrder();
+		coffeeShop.insertOrder();
 	}
 
 	// menu
@@ -24,11 +25,11 @@ public class OrderService {
 			throws Exception {
 		// Drink d = DrinkFactory.CreateDrink(drink);
 		// Type t = TypeFactory.GetType(type);
-		return coffeeshop.insertFinalOrderwithPrice(drink, type, noOfItems);
+		return coffeeShop.insertFinalOrderwithPrice(drink, type, noOfItems);
 
 	}
 
-	//
+	//Add Orders
 	public int AddOrders(JsonNode node) throws Exception {
 		String drink = "";
 		String type = "";
@@ -49,6 +50,7 @@ public class OrderService {
 
 	}
 
+	//Get Orders By Drink
 	public List<OrderItemDTO> getOrdersByDrink(JsonNode node) throws Exception {
 		// Drink d = DrinkFactory.CreateDrink(drink);
 		String drink = "";
@@ -56,19 +58,20 @@ public class OrderService {
 			drink = node.get("drink").asText("");
 		}
 
-		return coffeeshop.getOrdersByDrink(drink);
+		return coffeeShop.getOrdersByDrink(drink);
 	}
-
+	//Get Orders By Type
 	public List<OrderItemDTO> getOrdersByType(JsonNode node) {
 		String type = "";
 		if (node.get("type") != null) {
 			type = node.get("type").asText("");
 		}
-		return coffeeshop.getOrdersBySize(type);
+		return coffeeShop.getOrdersBySize(type);
 	}
 
 	public List<OrderItemDTO> getOrders() {
-		return coffeeshop.getOrders();
+		return coffeeShop.getOrders();
 	}
+
 
 }

@@ -42,10 +42,6 @@ public class CoffeeShopDAO {
 	public void insertOrder() {
 
 		Session sessiontemp = null;
-		// ApplicationContext contextSeperate = new
-		// ClassPathXmlApplicationContext(new String[]{"WegoShop-servlet.xml"});
-		// SessionFactory sessionFactorytemp = (SessionFactory)
-		// contextSeperate.getBean("sessionFactory");
 		sessiontemp = sessionFactory.getCurrentSession();
 		Drink greenTea = new GreenTea();
 		sessiontemp.save(greenTea);
@@ -182,6 +178,7 @@ public class CoffeeShopDAO {
 
 	}
 
+	//Insert Order with Price
 	@Transactional
 	public int insertFinalOrderwithPrice(String drink, String type,
 			int noOfItems) throws Exception {
@@ -200,7 +197,11 @@ public class CoffeeShopDAO {
 		c2.add(Restrictions.like("drink", d));
 		c2.add(Restrictions.like("type", t));
 		Menu menu = (Menu) c2.uniqueResult();
-		double price = menu.getPrice();
+		double price=0;
+		if(menu!=null)
+		{
+			price = menu.getPrice();
+		}
 		if (price != 0) {
 			OrderItem or = new OrderItem();
 			or.setDrink(d);
@@ -211,11 +212,13 @@ public class CoffeeShopDAO {
 			retValue = 1;
 			return retValue;
 		} else {
-			throw new Exception();
+
+			return retValue;
 
 		}
 	}
 
+	//Get Orders By Size
 	@Transactional
 	public List<OrderItemDTO> getOrdersBySize(String type) {
 
@@ -231,6 +234,7 @@ public class CoffeeShopDAO {
 
 	}
 
+	//Get Orders By Drink
 	@Transactional
 	public List<OrderItemDTO> getOrdersByDrink(String drink) {
 
@@ -247,6 +251,7 @@ public class CoffeeShopDAO {
 
 	}
 
+	//Get Orders
 	@Transactional
 	public List<OrderItemDTO> getOrders() {
 
@@ -259,6 +264,7 @@ public class CoffeeShopDAO {
 
 	}
 
+	//Mapper Object
 	private List<OrderItemDTO> mapperObject(List<OrderItem> items) {
 		List<OrderItemDTO> orderItems = new ArrayList<OrderItemDTO>();
 		for (OrderItem order : items) {

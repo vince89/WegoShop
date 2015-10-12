@@ -44,5 +44,17 @@ public class getAllOrdersByDrinkTest {
 		List<OrderItemDTO> orders = orderService.getOrdersByDrink(actualObj);
 		assertEquals(3, orders.size());
 	}
+	
+	@Test
+	public void testGetOrders() throws Exception {
+		List<OrderItemDTO> orders = orderService.getOrdersByDrink(actualObj);
+		assertEquals("Cappuccino", orders.get(0).getDrink());
+	}
+	
+	@Test
+	public void testGetOrdersType() throws Exception {
+		List<OrderItemDTO> orders = orderService.getOrdersByDrink(actualObj);
+		assertEquals("Grande", orders.get(0).getSize());
+	}
 
 }
